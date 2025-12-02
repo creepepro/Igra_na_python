@@ -53,7 +53,7 @@ class Game:
             else:
                 obj_type = "stone"
 
-            obj = FallingObject(x, 0, obj_type, speed)
+            obj = FallingObject(x, -20, obj_type, speed)
             self.falling_objects.append(obj)
 
     def update(self):

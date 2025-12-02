@@ -9,7 +9,7 @@ class Game:
         self.width = 800
         self.height = 600
         self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption("Яблокопад")
+        pygame.display.set_caption("падающие яблоки")
 
         self.clock = pygame.time.Clock()
         self.player = Player(self.width // 2, self.height - 50)
@@ -64,17 +64,19 @@ class Game:
         self.spawn_objects()
 
         for obj in self.falling_objects[:]:
-            obj.update()
-
-            if obj.y > self.height:
-                self.falling_objects.remove(obj)
-                if obj.obj_type == "apple":
-                    self.lives -= 1
-            elif self.player.rect.colliderect(obj.rect):
-                self.falling_objects.remove(obj)
+            if self.player.rect.colliderect(obj.rect):
                 if obj.obj_type == "apple":
                     self.score += 1
                 else:
+                    self.lives -= 1
+                self.falling_objects.remove(obj)
+                continue
+
+        for obj in self.falling_objects[:]:
+            obj.update()
+            if obj.y > self.height:
+                self.falling_objects.remove(obj)
+                if obj.obj_type == "apple":
                     self.lives -= 1
 
         if self.lives <= 0:
